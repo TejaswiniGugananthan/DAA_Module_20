@@ -1,57 +1,78 @@
-# EX 2D BACKTRACKING - GRAPH COLORING PROBLEM
+# EX 2B BACKTRACKING - NQUEEN PROBLEM
 ## DATE:
 ## AIM:
-To solve the Graph Coloring Problem using backtracking, assigning colors to the vertices of a graph such that no two adjacent vertices share the same color while minimizing the number of colors used.
-## Algorithm
-1.  Define a recursive function to assign colors to vertices one by one.
-2.  At each step, check if the current color can be assigned safely (i.e., no adjacent vertex has the same color).
-3.  If it is safe, assign the color and move to the next vertex by making a recursive call.
-4.  If it is not safe or no color fits, backtrack: remove the assigned color and try the next available color.
-5.  If all vertices are successfully colored, print the solution; else, if no valid coloring is possible, report failure.  
+To solve the N-Queen problem using backtracking, which places N queens on an N*N chessboard such that no two queens threaten each other.
 
+
+## Algorithm
+1. Read the value of N and create an N x N chessboard initialized with 0s.
+2. Define a function isSafe() to check if a queen can be placed at a given position by ensuring no other queens threaten it horizontally, and diagonally (upper-left and lower-left).
+3. Use a recursive function solveNQUtil() that tries to place queens column by column.
+4. If a safe position is found, place the queen and recursively try to place the rest; if it fails, backtrack and remove the queen.
+5. Print the board if a solution is found; otherwise, print "Solution does not exist".
+     
 ## Program:
 
-Program to implement Graph Coloring Problem using backtracking.
+Program to implement N-Queen problem using backtracking.
+
 
 Developed by: TEJASWINI G 
 
-Register Number: 212222230157
+
+Register Number:  212222230157
 
 
-```PYTHON
-class Graph():
-    def __init__(self, vertices):
-        self.V = vertices
-        self.graph = [[0 for column in range(vertices)]for row in range(vertices)]
- 
-    def isSafe(self, v, colour, c):
-        for i in range(self.V):
-            if self.graph[v][i] == 1 and colour[i] == c:
-                return False
-        return True
+```python
+global N
+N = int(input())
 
-    def graphColourUtil(self, m, colour, v):
-        if v == self.V:
-            return True
-        for c in range(1, m + 1):
-            if self.isSafe(v, colour, c) == True:
-                colour[v] = c
-                if self.graphColourUtil(m, colour, v + 1) == True:
-                    return True
-                colour[v] = 0
+def printSolution(board):
+    for i in range(N):
+        for j in range(N):
+            print(board[i][j], end=" ")
+        print()
 
-    def graphColouring(self, m):
-        colour = [0] * self.V
-        if self.graphColourUtil(m, colour, 0) == None:
+def isSafe(board, row, col):
+    for i in range(col):
+        if board[row][i] == 1:
             return False
-        print ("Solution exist and Following are the assigned colours:")
-        for c in colour:
-            print (c,end=' ')
+
+    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
+
+    for i, j in zip(range(row, N, 1), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
+
+    return True
+
+def solveNQUtil(board, col):
+    if col >= N:
         return True
-# Driver Code
+
+    for i in range(N):
+        if isSafe(board, i, col):
+            board[i][col] = 1
+            if solveNQUtil(board, col + 1):
+                return True
+            board[i][col] = 0
+
+    return False
+
+def solveNQ():
+    board = [[0 for _ in range(N)] for _ in range(N)]
+    
+    if not solveNQUtil(board, 0):
+        print("Solution does not exist")
+        return False
+
+    printSolution(board)
+    return True
+
+solveNQ()
 ```
 ## Output:
-![image](https://github.com/user-attachments/assets/7d760797-89fd-4dfd-8c75-d6049b2d82b8)
-
+![Screenshot 2025-04-26 110319](https://github.com/user-attachments/assets/e99280b5-30fe-4c6d-a480-59f5d68983b6)
 ## Result:
-The Graph Coloring program executed successfully, and the colors were assigned to the vertices such that no two adjacent vertices share the same color.
+The N-Queens program executed successfully, and a valid board configuration was generated.
