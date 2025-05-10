@@ -19,7 +19,7 @@ Developed by: TEJASWINI G
 
 Register Number: 212222230157
 
-```
+```PYTHON
 def SubsetSum(a,i,sum,target,n):
     if(i==n):
         return sum==target 
