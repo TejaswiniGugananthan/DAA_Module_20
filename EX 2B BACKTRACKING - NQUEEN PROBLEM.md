@@ -18,7 +18,7 @@ Developed by: TEJASWINI G
 Register Number: 212222230157
 
 
-```
+```PYTHON
 class Graph():
     def __init__(self, vertices):
         self.V = vertices
